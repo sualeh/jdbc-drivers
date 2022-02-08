@@ -1,40 +1,45 @@
 package us.fatehi.jdbc_drivers;
 
+import java.io.PrintWriter;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ServiceLoader;
 
 public class Main {
 
-  public static void main(String[] args) {
-    printDrivers3();
+  static {
+    DriverManager.setLogWriter(new PrintWriter(System.err));
   }
 
-  private static void printDrivers1() {
-    int index = 0;
-    DriverManager.setLogStream(System.err);
-    final Enumeration<Driver> e = DriverManager.getDrivers();
-    while (e.hasMoreElements()) {
-      index++;
-      final Driver driver = e.nextElement();
-      System.out.print(index);
-      System.out.print(" ");
-      System.out.print(driver.getClass().getName());
-      System.out.print(" ");
-      System.out.print(driver.getMajorVersion());
-      System.out.print(".");
-      System.out.print(driver.getMinorVersion());
-      System.out.println();
-    }
+  public static void main(final String[] args) {
+    System.out.println(serviceLoadDrivers2());
   }
 
-  private static void printDrivers2() {
+  /** CATCHES EXCEPTIONS SILENTLY, AND DOES NOT LOAD ANY DRIVERS. */
+  public static String serviceLoaddrivers1() {
+    final Enumeration<Driver> drivers = DriverManager.getDrivers();
+    final List<Driver> driversList = Collections.list(drivers);
+    return driversTable(driversList).toString();
+  }
+
+  /** FAILS TO LOAD ANY DRIVERS IF THERE IS AN EXCEPTION. */
+  public static String serviceLoadDrivers2() {
+    final ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver.class);
+    final Iterator<Driver> driversIterator = loadedDrivers.iterator();
+    final List<Driver> driversList = new ArrayList<>();
+    driversIterator.forEachRemaining(driversList::add);
+    return driversTable(driversList).toString();
+  }
+
+  private static StringBuilder driversTable(final List<Driver> driversList) {
     int index = 0;
     final StringBuilder buffer = new StringBuilder(1024);
-    for (final Driver driver : Collections.list(DriverManager.getDrivers())) {
+    for (final Driver driver : driversList) {
       index++;
       buffer.append(
           String.format(
@@ -44,24 +49,6 @@ public class Main {
               driver.getMajorVersion(),
               driver.getMinorVersion()));
     }
-    System.out.println(buffer);
-  }
-
-  private static void printDrivers3() {
-    int index = 0;
-    final ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver.class);
-    final Iterator<Driver> driversIterator = loadedDrivers.iterator();
-    while (driversIterator.hasNext()) {
-      index++;
-      final Driver driver = driversIterator.next();
-      System.out.print(index);
-      System.out.print(" ");
-      System.out.print(driver.getClass().getName());
-      System.out.print(" ");
-      System.out.print(driver.getMajorVersion());
-      System.out.print(".");
-      System.out.print(driver.getMinorVersion());
-      System.out.println();
-    }
+    return buffer;
   }
 }

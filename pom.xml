@@ -9,11 +9,11 @@
 
 	<dependencies>
 
-
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>
 			<artifactId>jaybird</artifactId>
-			<version>4.0.1.java8</version>
+			<version>4.0.5.java8</version>
+			<!-- DELIBERATELY FORCE ERROR IN DriverManager -->
 			<exclusions>
 				<exclusion>
 					<groupId>javax.resource</groupId>
@@ -30,13 +30,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
-			<artifactId>derbyclient</artifactId>
-			<version>[10.14.2.0]</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<version>[10.14.2.0]</version>
+			<version>10.15.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>monetdb</groupId>
@@ -46,12 +41,12 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>2.7.0</version>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.3.1</version>
+			<version>42.3.2</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
@@ -63,19 +58,19 @@
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
-			<version>9.4.1.jre8</version>
+			<version>10.2.0.jre8</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc_auth</artifactId>
-			<version>9.4.1.x64</version>
+			<version>10.2.0.x86</version>
 			<type>dll</type>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle.database.jdbc.debug</groupId>
 			<artifactId>ojdbc8_g</artifactId>
-			<version>21.4.0.0.1</version>
+			<version>21.5.0.0</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
